@@ -1,0 +1,30 @@
+<div class="surface-ground h-screen w-screen flex align-items-center justify-content-center">
+  <div class="surface-card py-7 px-5 sm:px-7 shadow-2 flex flex-column w-11 sm:w-30rem" style="border-radius: 14px">
+    <h1 class="font-bold text-lg sm:text-xl t-0 mb-2 mr-1 flex align-items-center">
+      405: METHOD NOT ALLOWED
+      <i class="pi pi-info-circle text-sm sm:text-xl text-primary ml-auto" (click)="infoIcon.toggle($event)"></i>
+    </h1>
+    <p class="text-color-secondary mb-4">Method not allowed. Check request method.</p>
+    <img src="/assets/images/errors/405.svg" alt="access-denied" class="mb-4 align-self-center" />
+    <button [routerLink]="['/']" pButton pRipple label="Go to Dashboard"></button>
+
+    <a pButton (click)="showError = !showError" *ngIf="ps.hasValue(error) && !showError" class="p-button-text mx-auto mt-2">Show Error</a>
+
+    <kbd class="w-full text-start mt-3" *ngIf="ps.hasValue(error) && showError">
+      <h6 class="my-1 flex">Error <a (click)="showError = !showError" class="ml-auto">X</a></h6>
+      <hr class="mt-0 mb-3" />
+      <pre>{{ error | json }}</pre>
+    </kbd>
+  </div>
+</div>
+
+<p-overlayPanel #infoIcon>
+  <ng-template pTemplate="content">
+    <p class="text-color-secondary m-0 p-3 w-20rem text-center">
+      A 405 error, "Method not allowed", indicates that the server does not support the HTTP method used in the request (e.g., GET, POST).
+      It could be due to a misconfiguration or restrictions on the server side. Double-check your request method and ensure it aligns with
+      the server's allowed methods. If the issue persists, contact the server administrator or service provider for assistance in resolving
+      the issue.
+    </p>
+  </ng-template>
+</p-overlayPanel>

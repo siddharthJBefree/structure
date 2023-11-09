@@ -1,0 +1,14 @@
+<div class="release-notes-container">
+  <div class="grid m-0 px-5">
+    <div class="col-lg-12" *ngFor="let note of releaseNotes">
+      <h3>Version {{ note.version }} : {{ note.title }}</h3>
+      <hr />
+      <ul>
+        <li *ngFor="let point of note?.pointList">
+          <span class="font-bold" *ngIf="getData(point).title"> {{ getData(point).title }}: </span>
+          <ng-container *ngIf="getData(point).content"> {{ getData(point).content }} </ng-container>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+:host ::ng-deep aside.app-sidebar {
+  height: calc(100vh - var(--header-height, 0) - var(--footer-height, 0));
+  background-color: #3f4b5b;
+  position: sticky;
+  top: var(--header-height, 0);
+  overflow-y: auto;
+  p-panelmenu {
+    display: block;
+    .p-panelmenu {
+      .p-panelmenu-header-link {
+        border-radius: 0 !important;
+        padding-right: 1.75rem;
+        chevronrighticon,
+        chevrondownicon {
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
+  }
+}

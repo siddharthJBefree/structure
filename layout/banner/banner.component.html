@@ -1,0 +1,12 @@
+<ng-container *ngIf="showBanner">
+  <div class="grid align-items-center m-0 p-3">
+    <div class="col-fixed">
+      <span class="font-bold mr-3">🔥 Latest News!!! : </span>
+      <span class="mr-2">Libero voluptatum atque exercitationem praesentium provident odit.</span>
+      <a class="text-white" href="#"><span class="underline font-bold">Learn More</span></a>
+    </div>
+    <div class="col-fixed ml-auto">
+      <p-button icon="pi pi-times" styleClass="p-1 w-2rem h-2rem" [rounded]="true" [text]="true" (onClick)="showBanner = false"></p-button>
+    </div>
+  </div>
+</ng-container>

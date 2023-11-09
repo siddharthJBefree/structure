@@ -1,0 +1,12 @@
+:host {
+  display: inline-block;
+  width: 100%;
+}
+:host ::ng-deep .p-column-filter-menu-button {
+  .p-dropdown-label {
+    padding: 0;
+  }
+  .p-dropdown-trigger {
+    display: none;
+  }
+}

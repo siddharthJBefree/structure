@@ -1,0 +1,30 @@
+<div class="surface-ground h-screen w-screen flex align-items-center justify-content-center">
+  <div class="surface-card py-7 px-5 sm:px-7 shadow-2 flex flex-column w-11 sm:w-30rem" style="border-radius: 14px">
+    <h1 class="font-bold text-2xl mt-0 mb-2 flex align-items-center">
+      401: ACCESS DENIED
+      <i class="pi pi-info-circle text-xl text-primary ml-auto" (click)="infoIcon.toggle($event)"></i>
+    </h1>
+    <p class="text-color-secondary mb-4">You are not authorized to access this resource...</p>
+    <img src="/assets/images/errors/401.svg" alt="access-denied" class="mb-4 align-self-center" />
+    <button [routerLink]="['/']" pButton pRipple label="Go to Dashboard"></button>
+
+    <a pButton (click)="showError = !showError" *ngIf="ps.hasValue(error) && !showError" class="p-button-text mx-auto mt-2">Show Error</a>
+
+    <kbd class="w-full text-start mt-3" *ngIf="ps.hasValue(error) && showError">
+      <h6 class="my-1 flex">Error <a (click)="showError = !showError" class="ml-auto">X</a></h6>
+      <hr class="mt-0 mb-3" />
+      <pre>{{ error | json }}</pre>
+    </kbd>
+  </div>
+</div>
+
+<p-overlayPanel #infoIcon>
+  <ng-template pTemplate="content">
+    <p class="text-color-secondary m-0 p-3 w-20rem text-center">
+      A 401 error occurs when accessing a web page or resource that requires authentication. It indicates that the request lacks valid
+      credentials, such as a username and password, API key, or session token. The error message typically means that you are not authorized
+      to access the requested resource. Double-check your credentials, ensure proper authorization, and contact the server administrator or
+      service provider if necessary.
+    </p>
+  </ng-template>
+</p-overlayPanel>

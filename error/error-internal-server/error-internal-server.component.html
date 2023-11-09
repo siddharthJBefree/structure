@@ -1,0 +1,31 @@
+<div class="surface-ground h-screen w-screen flex align-items-center justify-content-center">
+  <div class="surface-card py-7 px-5 sm:px-7 shadow-2 flex flex-column w-11 sm:w-30rem" style="border-radius: 14px">
+    <h1 class="font-bold text-lg sm:text-xl t-0 mb-2 mr-1 flex align-items-center">
+      500: INTERNAL SERVER ERROR
+      <i class="pi pi-info-circle text-sm sm:text-xl text-primary ml-auto" (click)="infoIcon.toggle($event)"></i>
+    </h1>
+    <p class="text-color-secondary mb-4">Internal Server Error. Contact Administrator.</p>
+    <img src="/assets/images/errors/500.svg" alt="access-denied" class="mb-4 align-self-center" />
+    <button [routerLink]="['/']" pButton pRipple label="Go to Dashboard"></button>
+
+    <a pButton (click)="showError = !showError" *ngIf="ps.hasValue(error) && !showError" class="p-button-text mx-auto mt-2">Show Error</a>
+
+    <kbd class="w-full text-start mt-3" *ngIf="ps.hasValue(error) && showError">
+      <h6 class="my-1 flex">Error <a (click)="showError = !showError" class="ml-auto">X</a></h6>
+      <hr class="mt-0 mb-3" />
+      <pre>{{ error | json }}</pre>
+    </kbd>
+  </div>
+</div>
+
+<p-overlayPanel #infoIcon>
+  <ng-template pTemplate="content">
+    <p class="text-color-secondary m-0 p-3 w-20rem text-center">
+      A 500 error, "Internal Server Error", indicates that there is an issue with the server that is preventing it from fulfilling the
+      request. It is a generic error message that does not provide specific details about the underlying problem. This error is typically
+      caused by server-side misconfigurations, programming errors, or database connection problems. If you encounter a 500 error, it is
+      recommended to wait and try again later as it may be a temporary issue. If the error persists, contact the server administrator or
+      website owner to report the problem and seek assistance in resolving the internal server error.
+    </p>
+  </ng-template>
+</p-overlayPanel>

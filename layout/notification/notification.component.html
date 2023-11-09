@@ -1,0 +1,35 @@
+<p-sidebar [(visible)]="showPanel" (visibleChange)="hidePanel($event)" position="right" appendTo="body">
+  <ng-template pTemplate="header"><h3 class="m-0">Notifications</h3></ng-template>
+
+  <ng-template pTemplate="content">
+    <p-dataView #dv [value]="notificationList">
+      <ng-template let-notification pTemplate="listItem">
+        <div class="col-12 pb-3">
+          <p class="text-bold mt-0 my-2">{{ notification.title }}</p>
+          <p class="mt-0 mb-2">{{ notification.description }}</p>
+          <p-tag [value]="notification.type.toUpperCase()" [severity]="notification.type"></p-tag>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="grid mx-3 justify-content-between">
+      <div class="col px-1 pb-3 text-center">
+        <p-button icon="pi pi-bookmark" styleClass="p-button-primary"></p-button>
+      </div>
+      <div class="col px-1 pb-3 text-center">
+        <p-button icon="pi pi-check-square" styleClass="p-button-success"></p-button>
+      </div>
+      <div class="col px-1 pb-3 text-center">
+        <p-button icon="pi pi-megaphone" styleClass="p-button-info"></p-button>
+      </div>
+      <div class="col px-1 pb-3 text-center">
+        <p-button icon="pi pi-question-circle" styleClass="p-button-warning"></p-button>
+      </div>
+      <div class="col px-1 pb-3 text-center">
+        <p-button icon="pi pi-exclamation-triangle" styleClass="p-button-danger"></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-sidebar>

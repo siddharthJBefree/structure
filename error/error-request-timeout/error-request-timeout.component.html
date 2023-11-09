@@ -1,0 +1,30 @@
+<div class="surface-ground h-screen w-screen flex align-items-center justify-content-center">
+  <div class="surface-card py-7 px-5 sm:px-7 shadow-2 flex flex-column w-11 sm:w-30rem" style="border-radius: 14px">
+    <h1 class="font-bold text-xl sm:text-2xl mt-0 mb-2 flex align-items-center">
+      408: REQUEST TIMEOUT
+      <i class="pi pi-info-circle text-xl text-primary ml-auto" (click)="infoIcon.toggle($event)"></i>
+    </h1>
+    <p class="text-color-secondary mb-4">Please Retry or Refresh the Page.</p>
+    <img src="/assets/images/errors/408.svg" alt="access-denied" class="mb-4 align-self-center" />
+    <button [routerLink]="['/']" pButton pRipple label="Go to Dashboard"></button>
+
+    <a pButton (click)="showError = !showError" *ngIf="ps.hasValue(error) && !showError" class="p-button-text mx-auto mt-2">Show Error</a>
+
+    <kbd class="w-full text-start mt-3" *ngIf="ps.hasValue(error) && showError">
+      <h6 class="my-1 flex">Error <a (click)="showError = !showError" class="ml-auto">X</a></h6>
+      <hr class="mt-0 mb-3" />
+      <pre>{{ error | json }}</pre>
+    </kbd>
+  </div>
+</div>
+
+<p-overlayPanel #infoIcon>
+  <ng-template pTemplate="content">
+    <p class="text-color-secondary m-0 p-3 w-20rem text-center">
+      A 408 error, "Request Timeout," occurs when the server does not receive a complete request from the client within the specified time
+      period. It generally suggests that the request took too long to complete or the server's timeout threshold was exceeded. This can
+      happen due to network issues, server congestion, or an overloaded server. To troubleshoot, you can try refreshing the page or retrying
+      the request. If the problem persists, check your internet connection or contact the website administrator to report the issue.
+    </p>
+  </ng-template>
+</p-overlayPanel>

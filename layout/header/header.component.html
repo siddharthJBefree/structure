@@ -1,0 +1,118 @@
+<app-banner class="layout-banner" (onResize)="onResizeBanner()"></app-banner>
+<header class="layout-topbar" (onResize)="onResizeHeader()">
+  <a class="app-logo" routerLink="/">
+    <img alt="app logo" [src]="logo" />
+    <span class="app-name">befree</span>
+  </a>
+
+  <button #menuButton class="topbar-menubutton p-link" type="button" (click)="onMenuToggle()">
+    <span></span>
+  </button>
+
+  <ul class="topbar-menu">
+    <li *ngFor="let item of tabs; let i = index">
+      <a
+        [routerLink]="item.routerLink"
+        routerLinkActive="active-route"
+        [routerLinkActiveOptions]="
+          item.routerLinkActiveOptions || {paths: 'exact', queryParams: 'ignored', fragment: 'ignored', matrixParams: 'ignored'}
+        "
+        [fragment]="item.fragment"
+        [queryParamsHandling]="item.queryParamsHandling"
+        [preserveFragment]="item.preserveFragment!"
+        [skipLocationChange]="item.skipLocationChange!"
+        [replaceUrl]="item.replaceUrl!"
+        [state]="item.state"
+        [queryParams]="item.queryParams"
+      >
+        <span>{{ item.label }}</span>
+      </a>
+      <i class="pi pi-times" (click)="removeTab($event, item, i)"></i>
+    </li>
+  </ul>
+
+  <div class="ml-auto"></div>
+
+  <!-- <div class="topbar-search ml-3" [ngClass]="{'topbar-search-active': searchActive}">
+    <button class="topbar-searchbutton p-link" type="button" (click)="activateSearch()">
+      <i class="pi pi-search"></i>
+    </button>
+
+    <div class="search-input-wrapper">
+      <span class="p-input-icon-right">
+        <input #searchInput type="text" pInputText placeholder="Search" (blur)="deactivateSearch()" (keydown.escape)="deactivateSearch()" />
+        <i class="pi pi-search"></i>
+      </span>
+    </div>
+  </div> -->
+
+  <div class="col-fixed py-0 pl-0">
+    <button
+      pButton
+      icon="pi pi-bell"
+      (click)="flags.notificationPanel = true"
+      class="p-button-rounded p-button-raised p-button-help ml-3"
+    ></button>
+
+    <button pButton (click)="timeOverlay.toggle($event)" class="p-button-rounded p-button-raised p-button-success ml-3">
+      <span class="hidden sm:inline-block">Unit:</span> 80
+    </button>
+  </div>
+
+  <div class="topbar-profile ml-0">
+    <button
+      class="topbar-profile-button p-button p-button-text p-button-raised"
+      type="button"
+      pStyleClass="@next"
+      enterClass="hidden"
+      enterActiveClass="scalein"
+      leaveToClass="hidden"
+      leaveActiveClass="fadeout"
+      [hideOnOutsideClick]="true"
+      (click)="profileMenuOverlay.toggle($event)"
+    >
+      <img class="m-0" alt="avatar" src="assets/icons/icon-512x512.png" />
+      <span class="profile-details ml-1">
+        <span class="profile-name">Siddharth Jaiswal </span>
+        <span class="profile-job">Developer</span>
+      </span>
+      <i class="pi pi-angle-down"></i>
+    </button>
+  </div>
+</header>
+
+<p-overlayPanel class="p-0" #timeOverlay appendTo="body">
+  <ng-template pTemplate="content">
+    <div class="p-3">
+      <p class="d-flex mt-0 mb-2"><span class="me-3">Date :</span> <span class="ml-auto">00/00/0000</span></p>
+      <p class="d-flex mt-0 mb-2"><span class="me-3">Punch In :</span> <span class="ml-auto">00:00:00</span></p>
+      <p class="d-flex mt-0 mb-2"><span class="me-3">Time Spent :</span> <span class="ml-auto">00:00:00</span></p>
+      <p class="d-flex mt-2 mb-2"><span class="me-3">Unit:</span> <span class="ml-auto">80</span></p>
+      <p-progressBar [value]="10" [showValue]="false" [style]="{height: '6px'}"></p-progressBar>
+      <p class="d-flex mt-3 mb-0 justify-content-center">
+        <button
+          pButton
+          icon="pi pi-power-off"
+          class="p-button-rounded p-button-danger"
+          label="Punch out"
+          (click)="onPunchOut($event)"
+        ></button>
+        <p-confirmPopup></p-confirmPopup>
+      </p>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel class="p-0" #profileMenuOverlay appendTo="body">
+  <ng-template pTemplate="content">
+    <div class="p-3 text-center">
+      <p-avatar class="mb-2 inline-block" icon="pi pi-user" size="xlarge" shape="circle"> </p-avatar>
+      <p class="mt-0 mb-1">Siddharth Jaiswal</p>
+      <p class="m-0">siddharth.j@befree.com.au</p>
+    </div>
+    <p-menu styleClass="header-menu w-full" [model]="profileMenuList"></p-menu>
+  </ng-template>
+</p-overlayPanel>
+
+<app-notification [(showPanel)]="flags.notificationPanel"></app-notification>
+<app-config></app-config>

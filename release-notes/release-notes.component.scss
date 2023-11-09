@@ -1,0 +1,22 @@
+.release-notes-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+  .grid {
+    width: 100%;
+    margin: 0;
+    h3 {
+      font-size: 2rem;
+      padding: 0.5rem;
+      margin: 0;
+    }
+    ul {
+      padding: 1rem 0.5rem;
+      li {
+        list-style-type: disc;
+        margin: 5px 20px;
+        font-size: 16px;
+      }
+    }
+  }
+}

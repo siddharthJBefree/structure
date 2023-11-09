@@ -1,0 +1,10 @@
+:host {
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+}
+footer {
+  background-color: var(--surface-ground);
+  padding: 0;
+  font-size: 0.85rem;
+}

@@ -1,0 +1,260 @@
+<div class="grid mt-0 align-items-center">
+  <div class="col-12">
+    <p-table
+      #pTable
+      styleClass="p-datatable-gridlines {{ appTable.smallTable === true ? 'p-datatable-sm' : '' }} {{
+        appTable.smallTable === false ? 'p-datatable-lg' : ''
+      }}"
+      [value]="tableData"
+      [lazy]="true"
+      dataKey="id"
+      [paginator]="true"
+      [rows]="appTable.recordsPerPage"
+      [totalRecords]="appTable.totalRecords"
+      [loading]="appTable.loading"
+      [rowsPerPageOptions]="appTable.rowsPerPageOptions"
+      [sortField]="appTable.sortBy"
+      [pageLinks]="5"
+      [paginatorDropdownAppendTo]="'body'"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowHover]="true"
+      [sortMode]="'single'"
+      [showLoader]="false"
+      [scrollable]="true"
+      (onLazyLoad)="onLazyLoad($event)"
+      (onSort)="appTable.onSort($event)"
+      (onPage)="appTable.onPageChange($event)"
+      (rowsChange)="appTable.onRecordsPerPageChange($event)"
+      [reorderableColumns]="appTable.recordsPerPage < 151"
+      [resizableColumns]="true"
+      [columns]="appTable.headerList"
+      columnResizeMode="expand"
+      scrollHeight="calc(100vh - var(--header-height) - var(--sub-header-height) - var(--footer-height) - 11rem )"
+    >
+      <ng-template pTemplate="caption">
+        <div class="grid mt-0">
+          <div class="col-fixed pr-0">
+            <button
+              pButton
+              icon="pi pi-plus"
+              label="Add Record"
+              pTooltip="Add Record [ Alt + A ]"
+              tooltipPosition="bottom"
+              [routerLink]="ps.appRoutes.addUser"
+              [accessKey]="ps.shortcutKey.CREATE"
+            ></button>
+          </div>
+          <div class="col-12 sm:col-8 md:col-4 lg:col-3 px-0 ml-auto">
+            <!-- <app-search (search)="onSearch()"></app-search> -->
+          </div>
+          <div class="col-fixed pl-0">
+            <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-filter"
+              pTooltip="Filter"
+              tooltipPosition="bottom"
+              (click)="appTable.showFilterRow = !appTable.showFilterRow"
+              class="ml-3"
+            ></button
+            ><button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-filter-slash"
+              pTooltip="Filter"
+              tooltipPosition="bottom"
+              *ngIf="ps.hasValue(appTable.filters)"
+              (click)="onResetFilter()"
+              class="ml-3"
+            ></button>
+            <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-refresh"
+              pTooltip="Refresh"
+              tooltipPosition="bottom"
+              (click)="getTableData()"
+              class="ml-3"
+            ></button>
+            <!-- <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-file"
+              (click)="pTable.exportCSV()"
+              class="ml-3"
+              pTooltip="CSV"
+              tooltipPosition="bottom"
+            ></button> -->
+            <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-file-excel"
+              (click)="exportExcel()"
+              class="p-button-success ml-3"
+              pTooltip="Excel"
+              tooltipPosition="bottom"
+            ></button>
+            <!-- <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-file-pdf"
+              (click)="exportPdf()"
+              class="p-button-warning ml-3"
+              pTooltip="PDF"
+              tooltipPosition="bottom"
+            ></button> -->
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <ng-container *ngFor="let header of columns; trackBy: headerTrackBy">
+            <th
+              [class]="header?.classList"
+              [pSortableColumnDisabled]="header.sortable === false"
+              [pSortableColumn]="header.field"
+              [style.minWidth]="header?.minWidth"
+              pResizableColumn
+              pReorderableColumn
+              pFrozenColumn
+              [frozen]="header?.frozen && appTable.recordsPerPage < 151"
+              [alignFrozen]="header?.frozenAlign"
+              *ngIf="appTable.hideColumn(header)"
+            >
+              <div class="d-flex">
+                {{ header.title }}
+                <span class="ms-auto"></span>
+                <p-sortIcon class="ms-1" *ngIf="header.sortable !== false" [field]="header.field"></p-sortIcon>
+              </div>
+            </th>
+          </ng-container>
+        </tr>
+        <tr *ngIf="appTable.showFilterRow">
+          <ng-container *ngFor="let header of columns; trackBy: headerTrackBy">
+            <th
+              class="py-2"
+              [class]="header?.classList"
+              [style.width]="header.width"
+              [style.maxWidth]="header.width"
+              pFrozenColumn
+              [frozen]="header?.frozen === true && appTable.recordsPerPage < 151"
+              [alignFrozen]="header?.frozenAlign"
+            >
+              <app-filter-table
+                *ngIf="!!header?.columnFilter && header?.columnFilter?.show"
+                [header]="header"
+                [filters]="appTable.filters"
+                [dropdownList]="dropdown"
+                (filterChanged)="onFilter()"
+              >
+                <!-- <ng-template pTemplate="appFilterTable" let-value let-required="required" let-onValueChange="onValueChange"></ng-template> -->
+              </app-filter-table>
+            </th>
+          </ng-container>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-dataItem let-columns="columns" let-rowIndex="rowIndex">
+        <tr>
+          <ng-container *ngFor="let header of columns; trackBy: headerTrackBy">
+            <td
+              [class]="{'text-end': header?.align === 'RIGHT', 'text-center': header?.align === 'CENTER'}"
+              pFrozenColumn
+              [frozen]="header?.frozen === true && appTable.recordsPerPage < 151"
+              [alignFrozen]="header?.frozenAlign"
+            >
+              <app-data-format
+                class=" {{ dataItem?.cellClass?.[header.field] || dataItem?.class }}"
+                [data]="dataItem[header.field]"
+                [dataItem]="dataItem"
+                [type]="header?.type"
+                [config]="header?.typeConfig"
+                [rowIndex]="rowIndex"
+              >
+                <ng-container *ngIf="header.field === 'is_active'">
+                  <div class="col-fixed p-0">
+                    <p-inputSwitch
+                      styleClass=""
+                      [ngModelOptions]="{standalone: true}"
+                      [(ngModel)]="dataItem.is_active"
+                      [trueValue]="1"
+                      [falseValue]="0"
+                      (onChange)="activeInactiveRecord($event.checked, dataItem)"
+                    ></p-inputSwitch>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="header.field === 'action'">
+                  <div class="grid m-0 align-items-center">
+                    <div class="col-fixed p-0">
+                      <p-button
+                        type="button"
+                        [text]="true"
+                        styleClass="p-button-sm p-1"
+                        [icon]="'pi pi-user-edit'"
+                        (onClick)="onEditRecord(dataItem)"
+                      ></p-button>
+                      <p-button
+                        type="button"
+                        [text]="true"
+                        styleClass="p-button-sm p-1 p-button-danger ml-3"
+                        [icon]="'pi pi-trash'"
+                        (onClick)="onDeleteRecord(dataItem)"
+                      ></p-button>
+                    </div>
+                  </div>
+                </ng-container>
+              </app-data-format>
+            </td>
+          </ng-container>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="loadingbody">
+        <tr *ngFor="let tr of [].constructor(5)">
+          <td *ngFor="let td of [].constructor(appTable.headerList.length)">
+            <p-skeleton></p-skeleton>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td [attr.colspan]="this.headerList.length">
+            <div class="row mx-0 align-items-center" style="height: 250px">
+              <div class="col-12 text-center">No Data found</div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div class="row mx-0">
+  <div class="col-4">
+    <pre>{{ appTable.headerList | json }}</pre>
+  </div>
+  <div class="col-4">
+    <p-orderList
+      header="Columns"
+      filterBy="title"
+      filterMatchMode="contains"
+      controlsPosition="right"
+      [dragdrop]="true"
+      [stripedRows]="true"
+      [value]="appTable.headerList"
+      [listStyle]="{height: '30rem'}"
+    >
+      <ng-template let-header pTemplate="item">
+        <div class="row">
+          <div class="col-fixed"></div>
+          <div class="col">{{ header.title }}</div>
+        </div>
+      </ng-template>
+    </p-orderList>
+  </div>
+</div>

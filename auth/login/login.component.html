@@ -1,0 +1,52 @@
+<div class="surface-ground h-screen w-screen flex flex-column align-items-center justify-content-center">
+  <div class="surface-card p-3 sm:p-4 shadow-2 grid w-11 sm:w-30rem" style="border-radius: 14px">
+    <div class="col-12 pb-3 text-center">
+      <img src="assets/images/logo.png" height="50px" />
+    </div>
+    <div class="col-12 pb-3 text-center">
+      <p class="text-color-secondary">Welcome to the <strong>Befree!</strong>, sign in to continue.</p>
+    </div>
+    <form (submit)="onSubmit()" [formGroup]="loginForm" class="col-12 grid mx-0">
+      <div class="col-12 px-0 mb-3">
+        <div class="p-float-label form-group">
+          <input pInputText formControlName="username" #usernameC="control" id="username" aria-describedby="username-help" />
+          <label htmlFor="username">Username</label>
+        </div>
+        <p-form-errors text="Username" [controlRef]="usernameC"></p-form-errors>
+      </div>
+      <div class="col-12 px-0 mb-2">
+        <div class="p-float-label form-group">
+          <p-password formControlName="password" #passwordC="control" id="password" [toggleMask]="true"></p-password>
+          <label htmlFor="password">Password</label>
+        </div>
+        <p-form-errors text="Password" [controlRef]="passwordC"></p-form-errors>
+      </div>
+      <div class="col-12 px-0 mb-3 flex align-items-center">
+        <div class="field-checkbox mb-0">
+          <p-checkbox formControlName="termAndCondition" id="termAndCondition" inputId="remember" [binary]="true"></p-checkbox>
+          <label for="remember">Remember Me</label>
+        </div>
+        <p-button pRipple [routerLink]="ps.appRoutes.forgotPassword" class="ml-auto" [text]="true" styleClass="p-0">
+          Forgot Password ?
+        </p-button>
+      </div>
+      <div class="col-12 px-0 mb-3 flex align-items-center">
+        <div class="field-checkbox mb-0">
+          <p-checkbox formControlName="termAndCondition" id="termAndCondition" inputId="yes" [binary]="true"></p-checkbox>
+          <label for="yes" class="inline-flex flex-wrap align-items-center">
+            I have read and agree to the&nbsp;
+            <p-button pRipple [routerLink]="ps.appRoutes.termsAndCondition" [text]="true" styleClass="p-0"> Terms and Conditions </p-button>
+            .
+          </label>
+        </div>
+      </div>
+      <div class="col-12 p-0">
+        <button pButton pRipple label="Login" class="p-button-primary w-full"></button>
+      </div>
+    </form>
+  </div>
+  <p class="text-center px-3 m-0">
+    &copy; {{ year }} Befree Business Resourcing LLP.&nbsp;&nbsp;<br class="sm:hidden" />All Rights Reserved.
+  </p>
+  <p class="text-center m-0" *ngIf="platform !== 'PRODUCTION'">[ --- {{ platform }} --- ]</p>
+</div>

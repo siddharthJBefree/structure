@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  background: var(--surface-ground);
+
+  .splash-cube1::before,
+  .splash-cube2::before,
+  .splash-cube3::before,
+  .splash-cube4::before {
+    background-color: var(--text-color);
+  }
+}

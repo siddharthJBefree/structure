@@ -1,0 +1,21 @@
+::ng-deep .timer-progress-bar {
+  .p-slider-vertical {
+    height: 100% !important;
+    opacity: 1;
+  }
+}
+
+::ng-deep .layout-topbar .topbar-menubutton {
+  inset: unset !important;
+  border-radius: var(--border-radius);
+  background-color: var(--v-body-bg);
+  transition: background-color var(--transition-duration);
+  width: 3.5rem;
+  height: 3.5rem;
+  position: relative;
+  margin-left: 10px;
+  span {
+    top: 22px;
+    left: 11px;
+  }
+}

@@ -1,0 +1,14 @@
+export enum DataFormatType {
+  DATE = 'DATE',
+  NUMBER = 'NUMBER',
+  TIME = 'TIME',
+  DATE_TIME = 'DATE_TIME',
+  HOUR_MINUTE = 'HOUR_MINUTE',
+  BADGE = 'BADGE',
+  LINK = 'LINK',
+  MULTI_LINK = 'MULTI_LINK',
+  CUSTOM = 'CUSTOM',
+  DEFAULT = 'DEFAULT',
+  INDEX = 'INDEX',
+  JSON = 'JSON'
+}

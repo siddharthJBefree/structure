@@ -1,0 +1,247 @@
+<!-- Hide error for Following -->
+<div class="flex align-items-center" *ngIf="!!header.columnFilter">
+  <div class="filter-field flex-grow-1">
+    <ng-container [ngSwitch]="header.columnFilter.templateType">
+      <ng-container *ngSwitchCase="'DEFAULT'">
+        <input
+          class="min-w-7rem w-full"
+          type="text"
+          pInputText
+          [(ngModel)]="value.text"
+          (ngModelChange)="onValueChange()"
+          [required]="required"
+        />
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'NUMBER'">
+        <ng-container *ngIf="!['isBetween', 'isNotBetween'].includes(matchMode || ''); else numberRange">
+          <p-inputNumber
+            class="min-w-7rem"
+            [format]="false"
+            [allowEmpty]="true"
+            [(ngModel)]="value.text"
+            (ngModelChange)="onValueChange()"
+            [required]="required"
+          >
+          </p-inputNumber>
+        </ng-container>
+        <ng-template #numberRange>
+          <div class="flex gap-2">
+            <p-inputNumber
+              class="min-w-7rem"
+              [format]="false"
+              [allowEmpty]="true"
+              [(ngModel)]="value.from"
+              (ngModelChange)="onValueChange()"
+              [required]="required"
+            >
+            </p-inputNumber>
+            <p-inputNumber
+              class="min-w-7rem"
+              [format]="false"
+              [allowEmpty]="true"
+              [(ngModel)]="value.to"
+              (ngModelChange)="onValueChange()"
+              [required]="required"
+            >
+            </p-inputNumber>
+          </div>
+        </ng-template>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'DATE_TIME'">
+        <ng-container *ngIf="!['dateIsBetween', 'dateIsNotBetween'].includes(matchMode || ''); else numberRange">
+          <p-calendar
+            class="min-w-15rem"
+            appendTo="body"
+            [showTime]="true"
+            [(ngModel)]="value.text"
+            (ngModelChange)="onValueChange()"
+            [required]="required"
+          >
+          </p-calendar>
+        </ng-container>
+        <ng-template #numberRange>
+          <div class="flex gap-2">
+            <p-calendar
+              class="min-w-15rem w-full"
+              appendTo="body"
+              [showTime]="true"
+              selectionMode="range"
+              [numberOfMonths]="2"
+              [(ngModel)]="value.text"
+              (ngModelChange)="onValueChange()"
+              [required]="required"
+            >
+            </p-calendar>
+          </div>
+        </ng-template>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'DATE'">
+        <ng-container *ngIf="!['dateIsBetween', 'dateIsNotBetween'].includes(matchMode || ''); else dateRange">
+          <p-calendar class="min-w-15rem" appendTo="body" [(ngModel)]="value.text" [required]="required"> </p-calendar>
+        </ng-container>
+        <ng-template #dateRange>
+          <div class="flex gap-2">
+            <p-calendar
+              class="min-w-15rem"
+              appendTo="body"
+              selectionMode="range"
+              [numberOfMonths]="2"
+              [(ngModel)]="value.text"
+              (ngModelChange)="onValueChange()"
+              [required]="required"
+            >
+            </p-calendar>
+          </div>
+        </ng-template>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'TIME'">
+        <ng-container *ngIf="!['timeIsBetween'].includes(matchMode || ''); else numberRange">
+          <p-calendar
+            class="min-w-7rem"
+            appendTo="body"
+            [timeOnly]="true"
+            [showSeconds]="true"
+            [(ngModel)]="value.text"
+            (ngModelChange)="onValueChange()"
+            [required]="required"
+          >
+          </p-calendar>
+        </ng-container>
+        <ng-template #numberRange>
+          <div class="flex gap-2">
+            <p-calendar
+              class="min-w-7rem"
+              appendTo="body"
+              [timeOnly]="true"
+              [showSeconds]="true"
+              [(ngModel)]="value.from"
+              (ngModelChange)="onValueChange()"
+              [required]="required"
+            >
+            </p-calendar>
+            <p-calendar
+              class="min-w-7rem"
+              appendTo="body"
+              [timeOnly]="true"
+              [showSeconds]="true"
+              [(ngModel)]="value.to"
+              (ngModelChange)="onValueChange()"
+              [required]="required"
+            >
+            </p-calendar>
+          </div>
+        </ng-template>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'HOUR_MINUTE'">
+        <ng-container *ngIf="!['timeIsBetween'].includes(matchMode || ''); else numberRange">
+          <p-calendar
+            class="min-w-7rem"
+            appendTo="body"
+            [timeOnly]="true"
+            [(ngModel)]="value.text"
+            (ngModelChange)="onValueChange()"
+            [required]="required"
+          >
+          </p-calendar>
+        </ng-container>
+        <ng-template #numberRange>
+          <div class="flex gap-2">
+            <p-calendar
+              class="min-w-7rem"
+              appendTo="body"
+              [timeOnly]="true"
+              [(ngModel)]="value.from"
+              (ngModelChange)="onValueChange()"
+              [required]="required"
+            >
+            </p-calendar>
+            <p-calendar
+              class="min-w-7rem"
+              appendTo="body"
+              [timeOnly]="true"
+              [(ngModel)]="value.to"
+              (ngModelChange)="onValueChange()"
+              [required]="required"
+            >
+            </p-calendar>
+          </div>
+        </ng-template>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'BADGE'">
+        <p-dropdown
+          [options]="header.typeConfig?.badge"
+          panelStyleClass="w-15rem"
+          appendTo="body"
+          optionLabel="label"
+          optionValue="value"
+          [(ngModel)]="value.text"
+          (ngModelChange)="onValueChange()"
+          [autoDisplayFirst]="false"
+          [required]="required"
+          *ngIf="header.columnFilter?.hideMatchModes !== true"
+        ></p-dropdown>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'DROPDOWN'">
+        <p-dropdown
+          [options]="dropdownList[header.columnFilter.dropdownConfig?.listName || '']"
+          [optionLabel]="header.columnFilter.dropdownConfig?.label"
+          [optionValue]="header.columnFilter.dropdownConfig?.value"
+          panelStyleClass="w-15rem"
+          styleClass="w-full"
+          appendTo="body"
+          [(ngModel)]="value.text"
+          (ngModelChange)="onValueChange()"
+          [autoDisplayFirst]="false"
+          [required]="required"
+        ></p-dropdown>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'CUSTOM'">
+        <ng-container *ngIf="customTemplate">
+          <ng-container
+            *ngTemplateOutlet="
+              customTemplate;
+              context: {
+                $implicit: value,
+                onValueChange: onValueChange.bind(this),
+                required: required
+              }
+            "
+          ></ng-container>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngSwitchDefault> Please add Template {{ header.type }} </ng-container>
+    </ng-container>
+  </div>
+  <div class="match-mode-dropdown ml-2" *ngIf="header.columnFilter?.hideMatchModes !== true">
+    <p-dropdown
+      #dp
+      [options]="matchModeOption"
+      panelStyleClass="w-20rem"
+      class="p-column-filter-menu-button"
+      appendTo="body"
+      [(ngModel)]="matchMode"
+      (ngModelChange)="onMatchModeChange($event, dp)"
+      [autoDisplayFirst]="false"
+    >
+      <ng-template pTemplate="empty">
+        <div class="p-column-filter-menu-button m-0">
+          <FilterIcon [styleClass]="'pi-filter-icon'" />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="selectedItem">
+        <div class="p-column-filter-menu-button m-0">
+          <FilterIcon [styleClass]="'pi-filter-icon'" />
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </div>
+</div>

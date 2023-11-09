@@ -1,0 +1,8 @@
+<footer class="grid my-0 layout-footer" (onResize)="onResize()">
+  <div class="col-fixed py-2 px-3">&copy; {{ year }} Befree Business Resourcing LLP. All Rights Reserved.</div>
+  <div class="col text-right p-0"></div>
+  <div class="col-fixed py-2 px-3">
+    Befree Workspace
+    <span *ngIf="platform !== 'PRODUCTION'">[ --- {{ platform }} --- ]</span>
+  </div>
+</footer>
